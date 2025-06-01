@@ -70,8 +70,22 @@
       opacity: 1;
     }
 
-    @media (max-width: 576px) {
+    .overlay-blocker {
+      position: fixed;
+      z-index: 9999;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: transparent;
+      cursor: pointer;
+    }
 
+    body.blocked {
+      overflow: hidden;
+    }
+
+    @media (max-width: 576px) {
       .hero .content h1,
       .hero .content h2,
       .hero .content p {
@@ -103,12 +117,12 @@
   </style>
 </head>
 
-<body>
+<body class="blocked">
   <div class="wrapper">
     <!-- Hero Section -->
     <section class="hero" id="hero">
-      <video id="heroVideo" autoplay playsinline>
-        <source id="videoSource" src="page_1-2_rev.mp4" type="video/mp4" />
+      <video id="heroVideo" muted autoplay playsinline>
+        <source src="page_1-2_rev.mp4" type="video/mp4" />
       </video>
       <div class="content container">
         <a href="#intro" id="lihatUndanganBtn" class="btn btn-outline-primary mt-3">Buka Undangan</a>
@@ -117,35 +131,35 @@
 
     <!-- Intro Section (DOA) -->
     <section class="hero" id="intro">
-      <video id="heroDoaVideo" autoplay muted playsinline>
-        <source id="videoDoaSource" src="doa_rev.mp4" type="video/mp4" />
+      <video id="heroDoaVideo" playsinline>
+        <source src="doa_rev.mp4" type="video/mp4" />
       </video>
     </section>
 
-    <!-- Video Pages () -->
+    <!-- Halaman Video -->
     <section class="hero" id="page_4">
-      <video id="heroPage4Video" autoplay playsinline>
-        <source id="video4Source" src="page_4_rev.mp4" type="video/mp4" />
+      <video id="heroPage4Video" playsinline>
+        <source src="page_4_rev.mp4" type="video/mp4" />
       </video>
     </section>
     <section class="hero" id="page_5">
-      <video id="heroPage5Video" autoplay playsinline>
-        <source id="video5Source" src="page_5_rev.mp4" type="video/mp4" />
+      <video id="heroPage5Video" playsinline>
+        <source src="page_5_rev.mp4" type="video/mp4" />
       </video>
     </section>
     <section class="hero" id="page_6">
-      <video id="heroPage6Video" autoplay playsinline>
-        <source id="video6Source" src="page_6_rev.mp4" type="video/mp4" />
+      <video id="heroPage6Video" playsinline>
+        <source src="page_6_rev.mp4" type="video/mp4" />
       </video>
     </section>
     <section class="hero" id="page_7">
-      <video id="heroPage7Video" autoplay playsinline>
-        <source id="video7Source" src="page_7_rev.mp4" type="video/mp4" />
+      <video id="heroPage7Video" playsinline>
+        <source src="page_7_rev.mp4" type="video/mp4" />
       </video>
     </section>
     <section class="hero" id="page_8">
-      <video id="heroPage8Video" autoplay playsinline>
-        <source id="video8Source" src="page_8_rev.mp4" type="video/mp4" />
+      <video id="heroPage8Video" playsinline>
+        <source src="page_8_rev.mp4" type="video/mp4" />
       </video>
     </section>
 
@@ -165,140 +179,73 @@
     <audio id="bg-music" loop>
       <source src="backsound.mp3" type="audio/mpeg" />
     </audio>
-
   </div>
+
+  <!-- Overlay untuk blok interaksi awal -->
+  <div class="overlay-blocker"></div>
 
   <!-- Script -->
   <script>
+    const videos = [
+      { id: 'heroDoaVideo', loopSrc: 'doa_loop.mp4' },
+      { id: 'heroPage4Video', loopSrc: 'page_4_loop.mp4' },
+      { id: 'heroPage5Video', loopSrc: 'page_5_loop.mp4' },
+      { id: 'heroPage6Video', loopSrc: 'page_6_loop.mp4' },
+      { id: 'heroPage7Video', loopSrc: 'page_7_loop.mp4' },
+      { id: 'heroPage8Video', loopSrc: 'page_8_loop.mp4' }
+    ];
+
     const music = document.getElementById('bg-music');
     const lihatBtn = document.getElementById('lihatUndanganBtn');
-
     const heroVideo = document.getElementById('heroVideo');
-    const heroDoaVideo = document.getElementById('heroDoaVideo');
-    const Page4video = document.getElementById('heroPage4Video');
-    const Page5video = document.getElementById('heroPage5Video');
-    const Page6video = document.getElementById('heroPage6Video');
-    const Page7video = document.getElementById('heroPage7Video');
-    const Page8video = document.getElementById('heroPage8Video');
 
-    const Page4 = document.getElementById("page_4");
-    const Page5 = document.getElementById("page_5");
-    const Page6 = document.getElementById("page_6");
-    const Page7 = document.getElementById("page_7");
-    const Page8 = document.getElementById("page_8");
-
-    const source = document.getElementById('videoSource');
-    const Doasource = document.getElementById('videoDoaSource');
-    const Page4source = document.getElementById('video4Source');
-    const Page5source = document.getElementById('video5Source');
-    const Page6source = document.getElementById('video6Source');
-    const Page7source = document.getElementById('video7Source');
-    const Page8source = document.getElementById('video8Source');
-
-    let mediaActivated = false;
-
+    // Tampilkan tombol "Buka Undangan" setelah video awal selesai
     heroVideo.addEventListener('ended', () => {
-      source.src = 'intro_loop_rev.mp4';
-      heroVideo.load();
       heroVideo.loop = true;
+      heroVideo.querySelector('source').src = 'intro_loop_rev.mp4';
+      heroVideo.load();
       heroVideo.play();
       lihatBtn.classList.add('show');
     });
 
+    // Aktivasi media setelah interaksi pertama
+    let mediaActivated = false;
     function activateMedia() {
       if (mediaActivated) return;
       mediaActivated = true;
 
       music.play().catch(() => { });
 
-      heroDoaVideo.muted = false;
-      heroDoaVideo.play().then(() => {
+      videos.forEach(v => {
+        const vid = document.getElementById(v.id);
+        vid.muted = false;
+        vid.play().catch(() => { });
 
+        vid.addEventListener('ended', () => {
+          vid.querySelector('source').src = v.loopSrc;
+          vid.load();
+          vid.loop = true;
+          vid.play().catch(() => { });
+        });
       });
 
-      heroDoaVideo.muted = false;
-      Page4video.muted = false;
-      Page5video.muted = false;
-      Page6video.muted = false;
-      Page7video.muted = false;
-      Page8video.muted = false;
+      // Hilangkan overlay dan aktifkan scroll
+      const blocker = document.querySelector('.overlay-blocker');
+      if (blocker) blocker.remove();
+      document.body.classList.remove('blocked');
 
-      // Putar otomatis semua video saat tiba waktunya
-      heroDoaVideo.addEventListener('ended', () => {
-        Doasource.src = 'doa_loop.mp4';
-        heroDoaVideo.load();
-        heroDoaVideo.loop = true;
-        heroDoaVideo.play();
-        // Page4.scrollIntoView({ behavior: 'smooth' });
-      });
-
-      Page4video.addEventListener('ended', () => {
-        Page4source.src = 'page_4_loop.mp4';
-        Page4video.load();
-        Page4video.loop = true;
-        Page4video.play();
-        // Page5.scrollIntoView({ behavior: 'smooth' });
-      });
-
-      Page5video.addEventListener('ended', () => {
-        Page5source.src = 'page_5_loop.mp4';
-        Page5video.load();
-        Page5video.loop = true;
-        Page5video.play();
-        // Page6.scrollIntoView({ behavior: 'smooth' });
-      });
-
-      Page6video.addEventListener('ended', () => {
-        Page6source.src = 'page_6_loop.mp4';
-        Page6video.load();
-        Page6video.loop = true;
-        Page6video.play();
-        // Page7.scrollIntoView({ behavior: 'smooth' });
-      });
-
-      Page7video.addEventListener('ended', () => {
-        Page7source.src = 'page_7_loop.mp4';
-        Page7video.load();
-        Page7video.loop = true;
-        Page7video.play();
-        // Page8.scrollIntoView({ behavior: 'smooth' });
-      });
-
-      Page8video.addEventListener('ended', () => {
-        Page8source.src = 'page_8_loop.mp4';
-        Page8video.load();
-        Page8video.loop = true;
-        Page8video.play();
-      });
-
-      // Unmute semua video dari awal
-      heroDoaVideo.muted = false;
-      Page4video.muted = false;
-      Page5video.muted = false;
-      Page6video.muted = false;
-      Page7video.muted = false;
-      Page8video.muted = false;
-
-      // Optional: langsung play semua (agar pre-buffer)
-      heroDoaVideo.play().catch(() => { });
-      Page4video.play().catch(() => { });
-      Page5video.play().catch(() => { });
-      Page6video.play().catch(() => { });
-      Page7video.play().catch(() => { });
-      Page8video.play().catch(() => { });
-
-      document.removeEventListener('scroll', activateMedia);
       document.removeEventListener('click', activateMedia);
+      document.removeEventListener('scroll', activateMedia);
       lihatBtn.removeEventListener('click', activateMedia);
     }
 
-    document.addEventListener('scroll', activateMedia);
     document.addEventListener('click', activateMedia);
+    document.addEventListener('scroll', activateMedia);
     lihatBtn.addEventListener('click', activateMedia);
 
-    // Countdown Timer
+    // Countdown
     const countdown = document.getElementById("countdown");
-    const weddingDate = new Date("2025-07-10T08:00:00").getTime();
+    const weddingDate = new Date("2025-06-13T08:00:00").getTime();
 
     setInterval(() => {
       const now = new Date().getTime();
@@ -313,10 +260,7 @@
         countdown.innerHTML = `${days} hari ${hours} jam ${minutes} menit ${seconds} detik`;
       }
     }, 1000);
-
   </script>
-
-
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
