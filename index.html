@@ -70,6 +70,21 @@
       opacity: 1;
     }
 
+    .overlay-blocker {
+      position: fixed;
+      z-index: 9999;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: transparent;
+      cursor: pointer;
+    }
+
+    body.blocked {
+      overflow: hidden;
+    }
+
     @media (max-width: 576px) {
       .hero .content h1,
       .hero .content h2,
@@ -102,7 +117,7 @@
   </style>
 </head>
 
-<body>
+<body class="blocked">
   <div class="wrapper">
     <!-- Hero Section -->
     <section class="hero" id="hero">
@@ -166,6 +181,9 @@
     </audio>
   </div>
 
+  <!-- Overlay untuk blok interaksi awal -->
+  <div class="overlay-blocker"></div>
+
   <!-- Script -->
   <script>
     const videos = [
@@ -181,7 +199,7 @@
     const lihatBtn = document.getElementById('lihatUndanganBtn');
     const heroVideo = document.getElementById('heroVideo');
 
-    // Munculkan tombol "Buka Undangan" setelah intro selesai
+    // Tampilkan tombol "Buka Undangan" setelah video awal selesai
     heroVideo.addEventListener('ended', () => {
       heroVideo.loop = true;
       heroVideo.querySelector('source').src = 'intro_loop_rev.mp4';
@@ -190,7 +208,7 @@
       lihatBtn.classList.add('show');
     });
 
-    // Aktifkan media hanya setelah interaksi
+    // Aktivasi media setelah interaksi pertama
     let mediaActivated = false;
     function activateMedia() {
       if (mediaActivated) return;
@@ -211,6 +229,11 @@
         });
       });
 
+      // Hilangkan overlay dan aktifkan scroll
+      const blocker = document.querySelector('.overlay-blocker');
+      if (blocker) blocker.remove();
+      document.body.classList.remove('blocked');
+
       document.removeEventListener('click', activateMedia);
       document.removeEventListener('scroll', activateMedia);
       lihatBtn.removeEventListener('click', activateMedia);
@@ -222,7 +245,7 @@
 
     // Countdown
     const countdown = document.getElementById("countdown");
-    const weddingDate = new Date("2025-07-10T08:00:00").getTime();
+    const weddingDate = new Date("2025-06-13T08:00:00").getTime();
 
     setInterval(() => {
       const now = new Date().getTime();
