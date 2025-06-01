@@ -1,153 +1,245 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Undangan Pernikahan</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
   <style>
-    body, html {
-      margin: 0;
-      padding: 0;
-      overflow-x: hidden;
-      font-family: sans-serif;
+    body {
+      scroll-behavior: smooth;
+      background: #ffffff;
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      justify-content: center;
     }
-    section.hero {
-      position: relative;
+
+    .wrapper {
       width: 100%;
+      max-width: 480px;
+      background-color: white;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      position: relative;
+    }
+
+    .hero {
+      position: relative;
       height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      flex-direction: column;
       overflow: hidden;
     }
-    video {
+
+    .hero video {
+      position: absolute;
+      top: 0;
+      left: 0;
       width: 100%;
       height: 100%;
       object-fit: cover;
+      z-index: 0;
     }
-    .content.container {
-      position: absolute;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      text-align: center;
+
+    .hero .content {
+      position: relative;
+      z-index: 1;
+      color: white;
+      text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
     }
-    .btn {
-      padding: 10px 20px;
-      border: 1px solid #fff;
-      color: #fff;
-      background: transparent;
-      cursor: pointer;
-      font-size: 1rem;
+
+    .countdown {
+      font-size: 1.5rem;
+    }
+
+    .section {
+      padding: 4rem 1rem;
+    }
+
+    #lihatUndanganBtn {
+      display: none;
+      opacity: 0;
+      transition: opacity 3s ease;
+    }
+
+    #lihatUndanganBtn.show {
+      display: inline-block;
+      opacity: 1;
+    }
+
+    @media (max-width: 576px) {
+      .hero .content h1,
+      .hero .content h2,
+      .hero .content p {
+        font-size: 1.2rem;
+      }
+
+      .countdown {
+        font-size: 1.2rem;
+      }
+
+      .section {
+        padding: 2rem 0.5rem;
+      }
+
+      .container {
+        padding-left: 1rem;
+        padding-right: 1rem;
+      }
+
+      #lihatUndanganBtn {
+        font-size: 0.95rem;
+        padding: 0.5rem 1rem;
+      }
+
+      .ratio {
+        height: auto;
+      }
     }
   </style>
 </head>
+
 <body>
-  <!-- INTRO -->
-  <section class="hero" id="hero">
-    <video id="heroVideo" autoplay muted playsinline loop preload="auto">
-      <source src="page_1-2_rev.mp4" type="video/mp4" />
-    </video>
-    <div class="content container">
-      <a href="#intro" id="lihatUndanganBtn" class="btn" style="display: none;">Buka Undangan</a>
-    </div>
-  </section>
+  <div class="wrapper">
+    <!-- Hero Section -->
+    <section class="hero" id="hero">
+      <video id="heroVideo" muted autoplay playsinline>
+        <source src="page_1-2_rev.mp4" type="video/mp4" />
+      </video>
+      <div class="content container">
+        <a href="#intro" id="lihatUndanganBtn" class="btn btn-outline-primary mt-3">Buka Undangan</a>
+      </div>
+    </section>
 
-  <!-- DOA -->
-  <section class="hero" id="intro">
-    <video id="heroDoaVideo" playsinline preload="none" muted>
-      <source data-src="doa_rev.mp4" type="video/mp4" />
-    </video>
-  </section>
+    <!-- Intro Section (DOA) -->
+    <section class="hero" id="intro">
+      <video id="heroDoaVideo" playsinline>
+        <source src="doa_rev.mp4" type="video/mp4" />
+      </video>
+    </section>
 
-  <!-- PAGE 4 - 8 -->
-  <section class="hero" id="page_4">
-    <video id="heroPage4Video" playsinline preload="none" muted>
-      <source data-src="page_4_rev.mp4" type="video/mp4" />
-    </video>
-  </section>
-  <section class="hero" id="page_5">
-    <video id="heroPage5Video" playsinline preload="none" muted>
-      <source data-src="page_5_rev.mp4" type="video/mp4" />
-    </video>
-  </section>
-  <section class="hero" id="page_6">
-    <video id="heroPage6Video" playsinline preload="none" muted>
-      <source data-src="page_6_rev.mp4" type="video/mp4" />
-    </video>
-  </section>
-  <section class="hero" id="page_7">
-    <video id="heroPage7Video" playsinline preload="none" muted>
-      <source data-src="page_7_rev.mp4" type="video/mp4" />
-    </video>
-  </section>
-  <section class="hero" id="page_8">
-    <video id="heroPage8Video" playsinline preload="none" muted>
-      <source data-src="page_8_rev.mp4" type="video/mp4" />
-    </video>
-  </section>
+    <!-- Halaman Video -->
+    <section class="hero" id="page_4">
+      <video id="heroPage4Video" playsinline>
+        <source src="page_4_rev.mp4" type="video/mp4" />
+      </video>
+    </section>
+    <section class="hero" id="page_5">
+      <video id="heroPage5Video" playsinline>
+        <source src="page_5_rev.mp4" type="video/mp4" />
+      </video>
+    </section>
+    <section class="hero" id="page_6">
+      <video id="heroPage6Video" playsinline>
+        <source src="page_6_rev.mp4" type="video/mp4" />
+      </video>
+    </section>
+    <section class="hero" id="page_7">
+      <video id="heroPage7Video" playsinline>
+        <source src="page_7_rev.mp4" type="video/mp4" />
+      </video>
+    </section>
+    <section class="hero" id="page_8">
+      <video id="heroPage8Video" playsinline>
+        <source src="page_8_rev.mp4" type="video/mp4" />
+      </video>
+    </section>
 
-  <!-- BACKSOUND -->
-  <audio id="bg-music" loop preload="none">
-    <source src="backsound.mp3" type="audio/mpeg" />
-  </audio>
+    <!-- Acara -->
+    <section class="section bg-light" id="acara">
+      <div class="container text-center">
+        <div class="h3">Hitung Mundur</div>
+        <div class="countdown my-3" id="countdown"></div>
+        <div class="ratio ratio-16x9">
+          <iframe src="https://maps.google.com/maps?q=gedung%20serbaguna%20bahagia&t=&z=13&ie=UTF8&iwloc=&output=embed"
+            frameborder="0" allowfullscreen></iframe>
+        </div>
+      </div>
+    </section>
 
-  <!-- SCRIPT -->
+    <!-- Musik -->
+    <audio id="bg-music" loop>
+      <source src="backsound.mp3" type="audio/mpeg" />
+    </audio>
+  </div>
+
+  <!-- Script -->
   <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      const lihatBtn = document.getElementById("lihatUndanganBtn");
-      const heroVideo = document.getElementById("heroVideo");
-      const bgMusic = document.getElementById("bg-music");
+    const videos = [
+      { id: 'heroDoaVideo', loopSrc: 'doa_loop.mp4' },
+      { id: 'heroPage4Video', loopSrc: 'page_4_loop.mp4' },
+      { id: 'heroPage5Video', loopSrc: 'page_5_loop.mp4' },
+      { id: 'heroPage6Video', loopSrc: 'page_6_loop.mp4' },
+      { id: 'heroPage7Video', loopSrc: 'page_7_loop.mp4' },
+      { id: 'heroPage8Video', loopSrc: 'page_8_loop.mp4' }
+    ];
 
-      const lazyVideos = [
-        { id: "heroDoaVideo", src: "doa_rev.mp4" },
-        { id: "heroPage4Video", src: "page_4_rev.mp4" },
-        { id: "heroPage5Video", src: "page_5_rev.mp4" },
-        { id: "heroPage6Video", src: "page_6_rev.mp4" },
-        { id: "heroPage7Video", src: "page_7_rev.mp4" },
-        { id: "heroPage8Video", src: "page_8_rev.mp4" },
-      ];
+    const music = document.getElementById('bg-music');
+    const lihatBtn = document.getElementById('lihatUndanganBtn');
+    const heroVideo = document.getElementById('heroVideo');
 
-      // Tampilkan tombol buka setelah intro ready
-      heroVideo.addEventListener("canplay", () => {
-        setTimeout(() => {
-          lihatBtn.style.display = "inline-block";
-        }, 500);
-      });
-
-      // Mainkan musik saat tombol diklik
-      lihatBtn.addEventListener("click", () => {
-        if (bgMusic.paused) bgMusic.play().catch(() => {});
-      });
-
-      // Alternatif: mainkan musik saat interaksi
-      document.body.addEventListener("click", () => {
-        if (bgMusic.paused) bgMusic.play().catch(() => {});
-      });
-
-      // Lazy load semua video
-      const observer = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              const vid = entry.target;
-              const source = vid.querySelector("source");
-              if (vid.getAttribute("data-loaded") !== "true") {
-                source.src = source.getAttribute("data-src");
-                vid.load();
-                vid.play().catch(() => {});
-                vid.setAttribute("data-loaded", "true");
-              }
-            }
-          });
-        },
-        { threshold: 0.5 }
-      );
-
-      lazyVideos.forEach((videoInfo) => {
-        const vid = document.getElementById(videoInfo.id);
-        const srcEl = vid.querySelector("source");
-        srcEl.setAttribute("data-src", videoInfo.src);
-        observer.observe(vid);
-      });
+    // Munculkan tombol "Buka Undangan" setelah intro selesai
+    heroVideo.addEventListener('ended', () => {
+      heroVideo.loop = true;
+      heroVideo.querySelector('source').src = 'intro_loop_rev.mp4';
+      heroVideo.load();
+      heroVideo.play();
+      lihatBtn.classList.add('show');
     });
+
+    // Aktifkan media hanya setelah interaksi
+    let mediaActivated = false;
+    function activateMedia() {
+      if (mediaActivated) return;
+      mediaActivated = true;
+
+      music.play().catch(() => { });
+
+      videos.forEach(v => {
+        const vid = document.getElementById(v.id);
+        vid.muted = false;
+        vid.play().catch(() => { });
+
+        vid.addEventListener('ended', () => {
+          vid.querySelector('source').src = v.loopSrc;
+          vid.load();
+          vid.loop = true;
+          vid.play().catch(() => { });
+        });
+      });
+
+      document.removeEventListener('click', activateMedia);
+      document.removeEventListener('scroll', activateMedia);
+      lihatBtn.removeEventListener('click', activateMedia);
+    }
+
+    document.addEventListener('click', activateMedia);
+    document.addEventListener('scroll', activateMedia);
+    lihatBtn.addEventListener('click', activateMedia);
+
+    // Countdown
+    const countdown = document.getElementById("countdown");
+    const weddingDate = new Date("2025-07-10T08:00:00").getTime();
+
+    setInterval(() => {
+      const now = new Date().getTime();
+      const distance = weddingDate - now;
+
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      if (countdown) {
+        countdown.innerHTML = `${days} hari ${hours} jam ${minutes} menit ${seconds} detik`;
+      }
+    }, 1000);
   </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>
