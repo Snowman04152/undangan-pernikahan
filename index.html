@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -70,6 +71,7 @@
     }
 
     @media (max-width: 576px) {
+
       .hero .content h1,
       .hero .content h2,
       .hero .content p {
@@ -100,11 +102,12 @@
     }
   </style>
 </head>
+
 <body>
   <div class="wrapper">
     <!-- Hero Section -->
     <section class="hero" id="hero">
-      <video id="heroVideo" autoplay playsinline muted>
+      <video id="heroVideo" autoplay playsinline>
         <source id="videoSource" src="page_1-2_rev.mp4" type="video/mp4" />
       </video>
       <div class="content container">
@@ -114,34 +117,34 @@
 
     <!-- Intro Section (DOA) -->
     <section class="hero" id="intro">
-      <video id="heroDoaVideo" autoplay playsinline>
+      <video id="heroDoaVideo" autoplay muted playsinline>
         <source id="videoDoaSource" src="doa_rev.mp4" type="video/mp4" />
       </video>
     </section>
 
-    <!-- Video Pages (muted) -->
+    <!-- Video Pages () -->
     <section class="hero" id="page_4">
-      <video id="heroPage4Video" autoplay playsinline muted>
+      <video id="heroPage4Video" autoplay playsinline>
         <source id="video4Source" src="page_4_rev.mp4" type="video/mp4" />
       </video>
     </section>
     <section class="hero" id="page_5">
-      <video id="heroPage5Video" autoplay playsinline muted>
+      <video id="heroPage5Video" autoplay playsinline>
         <source id="video5Source" src="page_5_rev.mp4" type="video/mp4" />
       </video>
     </section>
     <section class="hero" id="page_6">
-      <video id="heroPage6Video" autoplay playsinline muted>
+      <video id="heroPage6Video" autoplay playsinline>
         <source id="video6Source" src="page_6_rev.mp4" type="video/mp4" />
       </video>
     </section>
     <section class="hero" id="page_7">
-      <video id="heroPage7Video" autoplay playsinline muted>
+      <video id="heroPage7Video" autoplay playsinline>
         <source id="video7Source" src="page_7_rev.mp4" type="video/mp4" />
       </video>
     </section>
     <section class="hero" id="page_8">
-      <video id="heroPage8Video" autoplay playsinline muted>
+      <video id="heroPage8Video" autoplay playsinline>
         <source id="video8Source" src="page_8_rev.mp4" type="video/mp4" />
       </video>
     </section>
@@ -162,91 +165,160 @@
     <audio id="bg-music" loop>
       <source src="backsound.mp3" type="audio/mpeg" />
     </audio>
+
   </div>
 
   <!-- Script -->
   <script>
-    const lihatBtn = document.getElementById('lihatUndanganBtn');
     const music = document.getElementById('bg-music');
+    const lihatBtn = document.getElementById('lihatUndanganBtn');
 
-    const video = document.getElementById('heroVideo');
-    const Doavideo = document.getElementById('heroDoaVideo');
-    const Page4 = document.getElementById('page_4');
-    const Page5 = document.getElementById('page_5');
-    const Page6 = document.getElementById('page_6');
-    const Page7 = document.getElementById('page_7');
-    const Page8 = document.getElementById('page_8');
+    const heroVideo = document.getElementById('heroVideo');
+    const heroDoaVideo = document.getElementById('heroDoaVideo');
+    const Page4video = document.getElementById('heroPage4Video');
+    const Page5video = document.getElementById('heroPage5Video');
+    const Page6video = document.getElementById('heroPage6Video');
+    const Page7video = document.getElementById('heroPage7Video');
+    const Page8video = document.getElementById('heroPage8Video');
 
-    const videoSources = {
-      intro: document.getElementById('videoDoaSource'),
-      page4: document.getElementById('video4Source'),
-      page5: document.getElementById('video5Source'),
-      page6: document.getElementById('video6Source'),
-      page7: document.getElementById('video7Source'),
-      page8: document.getElementById('video8Source'),
-    };
+    const Page4 = document.getElementById("page_4");
+    const Page5 = document.getElementById("page_5");
+    const Page6 = document.getElementById("page_6");
+    const Page7 = document.getElementById("page_7");
+    const Page8 = document.getElementById("page_8");
 
-    video.addEventListener('ended', () => {
-      video.querySelector('source').src = 'intro_loop_rev.mp4';
-      video.load();
-      video.loop = true;
-      video.play();
-      setTimeout(() => {
-        lihatBtn.classList.add('show');
-      }, 500);
+    const source = document.getElementById('videoSource');
+    const Doasource = document.getElementById('videoDoaSource');
+    const Page4source = document.getElementById('video4Source');
+    const Page5source = document.getElementById('video5Source');
+    const Page6source = document.getElementById('video6Source');
+    const Page7source = document.getElementById('video7Source');
+    const Page8source = document.getElementById('video8Source');
+
+    let mediaActivated = false;
+
+    heroVideo.addEventListener('ended', () => {
+      source.src = 'intro_loop_rev.mp4';
+      heroVideo.load();
+      heroVideo.loop = true;
+      heroVideo.play();
+      lihatBtn.classList.add('show');
     });
 
-    Doavideo.addEventListener('ended', () => {
-      videoSources.intro.src = 'doa_loop.mp4';
-      Doavideo.load();
-      Doavideo.loop = true;
-      Doavideo.play();
-      Page4.scrollIntoView({ behavior: 'smooth' });
-    });
+    function activateMedia() {
+      if (mediaActivated) return;
+      mediaActivated = true;
 
-    const setLoopHandler = (videoElement, sourceElement, loopSrc, scrollTarget) => {
-      videoElement.addEventListener('ended', () => {
-        sourceElement.src = loopSrc;
-        videoElement.load();
-        videoElement.loop = true;
-        videoElement.play();
-        scrollTarget.scrollIntoView({ behavior: 'smooth' });
+      music.play().catch(() => { });
+
+      heroDoaVideo.muted = false;
+      heroDoaVideo.play().then(() => {
+
       });
-    };
 
-    setLoopHandler(document.getElementById('heroPage4Video'), videoSources.page4, 'page_4_loop.mp4', Page5);
-    setLoopHandler(document.getElementById('heroPage5Video'), videoSources.page5, 'page_5_loop.mp4', Page6);
-    setLoopHandler(document.getElementById('heroPage6Video'), videoSources.page6, 'page_6_loop.mp4', Page7);
-    setLoopHandler(document.getElementById('heroPage7Video'), videoSources.page7, 'page_7_loop.mp4', Page8);
-    setLoopHandler(document.getElementById('heroPage8Video'), videoSources.page8, 'page_8_loop.mp4', Page8);
+      heroDoaVideo.muted = false;
+      Page4video.muted = false;
+      Page5video.muted = false;
+      Page6video.muted = false;
+      Page7video.muted = false;
+      Page8video.muted = false;
 
-    // Countdown
+      // Putar otomatis semua video saat tiba waktunya
+      heroDoaVideo.addEventListener('ended', () => {
+        Doasource.src = 'doa_loop.mp4';
+        heroDoaVideo.load();
+        heroDoaVideo.loop = true;
+        heroDoaVideo.play();
+        // Page4.scrollIntoView({ behavior: 'smooth' });
+      });
+
+      Page4video.addEventListener('ended', () => {
+        Page4source.src = 'page_4_loop.mp4';
+        Page4video.load();
+        Page4video.loop = true;
+        Page4video.play();
+        // Page5.scrollIntoView({ behavior: 'smooth' });
+      });
+
+      Page5video.addEventListener('ended', () => {
+        Page5source.src = 'page_5_loop.mp4';
+        Page5video.load();
+        Page5video.loop = true;
+        Page5video.play();
+        // Page6.scrollIntoView({ behavior: 'smooth' });
+      });
+
+      Page6video.addEventListener('ended', () => {
+        Page6source.src = 'page_6_loop.mp4';
+        Page6video.load();
+        Page6video.loop = true;
+        Page6video.play();
+        // Page7.scrollIntoView({ behavior: 'smooth' });
+      });
+
+      Page7video.addEventListener('ended', () => {
+        Page7source.src = 'page_7_loop.mp4';
+        Page7video.load();
+        Page7video.loop = true;
+        Page7video.play();
+        // Page8.scrollIntoView({ behavior: 'smooth' });
+      });
+
+      Page8video.addEventListener('ended', () => {
+        Page8source.src = 'page_8_loop.mp4';
+        Page8video.load();
+        Page8video.loop = true;
+        Page8video.play();
+      });
+
+      // Unmute semua video dari awal
+      heroDoaVideo.muted = false;
+      Page4video.muted = false;
+      Page5video.muted = false;
+      Page6video.muted = false;
+      Page7video.muted = false;
+      Page8video.muted = false;
+
+      // Optional: langsung play semua (agar pre-buffer)
+      heroDoaVideo.play().catch(() => { });
+      Page4video.play().catch(() => { });
+      Page5video.play().catch(() => { });
+      Page6video.play().catch(() => { });
+      Page7video.play().catch(() => { });
+      Page8video.play().catch(() => { });
+
+      document.removeEventListener('scroll', activateMedia);
+      document.removeEventListener('click', activateMedia);
+      lihatBtn.removeEventListener('click', activateMedia);
+    }
+
+    document.addEventListener('scroll', activateMedia);
+    document.addEventListener('click', activateMedia);
+    lihatBtn.addEventListener('click', activateMedia);
+
+    // Countdown Timer
     const countdown = document.getElementById("countdown");
-    const weddingDate = new Date("2025-06-13T08:00:00").getTime();
+    const weddingDate = new Date("2025-07-10T08:00:00").getTime();
 
     setInterval(() => {
       const now = new Date().getTime();
       const distance = weddingDate - now;
+
       const days = Math.floor(distance / (1000 * 60 * 60 * 24));
       const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
       const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
       const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
       if (countdown) {
         countdown.innerHTML = `${days} hari ${hours} jam ${minutes} menit ${seconds} detik`;
       }
     }, 1000);
 
-    // Aktifkan backsound saat user scroll atau klik
-    const enableMusic = () => {
-      music.play().catch(e => {
-        console.warn("Autoplay gagal:", e);
-      });
-      window.removeEventListener('scroll', enableMusic);
-      lihatBtn.removeEventListener('click', enableMusic);
-    };
-    window.addEventListener('scroll', enableMusic);
-    lihatBtn.addEventListener('click', enableMusic);
   </script>
+
+
+
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>
